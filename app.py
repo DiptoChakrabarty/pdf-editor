@@ -3,8 +3,21 @@ from pathlib import Path
 import os
 
 
-pdf_path=  os.environ["PWD"] + "/samplepdf.pdf"
+path=  os.environ["PWD"] + "/terms.pdf"
 
-pdf = PdfFileReader(str(pdf_path))
-pages= pdf.getNumPages()
-print(pages)
+with open(path,'rb') as f:
+    pdf = PdfFileReader(f)
+    info = pdf.getDocumentInfo()
+print("Author: \t", info.author)
+print()
+print("Creator: \t", info.creator)
+print()
+print("Producer: \t",info.producer)
+print()
+print("Subject: \t", info.subject)
+print()
+print("title: \t",info.title)
+print()
+print("Number of Pages in pdf: \t",number_of_pages)
+
+
