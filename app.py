@@ -28,6 +28,7 @@ class tweetlistener(StreamListener):
 
         #check polarity
         polarity = tweet.sentiment.polarity
+        subjectivity = tweet.sentiment.subjectivity
 
         if polarity < 0:
             sentiment = "negative"
@@ -36,7 +37,34 @@ class tweetlistener(StreamListener):
         else:
             sentiment = "positive"
 
-        
+        ## add data to elasticsearch
+
+        el.index(index="sentiment",
+                doc_type="test-type",
+                body={"author": dict_data["user"]["screen_name"],
+                "date": dict_data["created_at"],
+                "message": dict_data["text"],
+                "polarity": polarity,
+                "subjectivity": subjectivity,
+                "sentiment": sentiment
+                })
+        return True
+    
+    def on_erro(self,status):
+        print(status)
+
+
+if __name__ == "__main__":
+
+    listener = TweetStreamListener()
+
+    auth = OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
+
+    stream = Stream(auth,listener)
+
+    stream.filter(track=['amazon'])
+
 
 
 
