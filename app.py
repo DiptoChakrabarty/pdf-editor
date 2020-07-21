@@ -65,6 +65,8 @@ if __name__ == "__main__":
 
     stream.filter(track=['amazon'])
 
+    print(stream)
+
 
 
 
