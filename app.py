@@ -1,18 +1,18 @@
-import json
+import json,os
 from tweepy.streaming import StreamListener
 from  tweepy import OAuthHandler
 from tweepy import Stream
 from textblob import TextBlob
 from elasticsearch import Elasticsearch
-from dotenv import load_env()
-load_env()
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # load env values
 access_key = os.environ["API_KEY"]
 secret_key = os.environ["API_SECRET_KEY"]
-consumer_token = os.environ["COSUMER_TOKEN"]
-consumer_secret = os.environ["COSUMER_SECRET"]
+consumer_token = os.environ["CONSUMER_TOKEN"]
+consumer_secret = os.environ["CONSUMER_SECRET"]
 
 el = Elasticsearch()
 
@@ -56,10 +56,10 @@ class tweetlistener(StreamListener):
 
 if __name__ == "__main__":
 
-    listener = TweetStreamListener()
+    listener = tweetlistener()
 
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
+    auth = OAuthHandler(consumer_token, consumer_secret)
+    auth.set_access_token(access_key, secret_key)
 
     stream = Stream(auth,listener)
 
